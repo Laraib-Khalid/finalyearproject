@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="finalyearproject.StaffDetails.SelectSubject" Title="Select Subject">
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <Label Text="Select Name" FontSize="20" FontAttributes="Bold"/>
+            <Picker x:Name="NamePicker" ItemDisplayBinding="{Binding Name}" Title="Select Name">
+            </Picker>
+            <Label Text="Select Course" FontSize="20" FontAttributes="Bold"/>
+            <Picker x:Name="SubjectPicker" ItemDisplayBinding="{Binding Name}" Title="Select Subject">
+            </Picker>
+            <Label Text="Subject Experience" FontSize="20" FontAttributes="Bold"/>
+            <Entry x:Name="txtExperience" Keyboard="Numeric"/>
+            <Button Text="Selected" FontSize="20" FontAttributes="Bold" 
+                BackgroundColor="DarkGreen" TextColor="White"
+                x:Name="addbtn" HorizontalOptions="FillAndExpand" Clicked="addbtn_Clicked"/>
+            <ListView x:Name="listView" IsEnabled="False" HasUnevenRows="True" HorizontalScrollBarVisibility="Default">
+                <ListView.Header>
+                        <StackLayout>
+                    <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Grid.Row="0" Text="Teacher Name" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="0" Text="SubjectName" FontAttributes="Bold"/>
+                        <Label Grid.Column="2" Grid.Row="0" Text="Experience" FontAttributes="Bold"/>
+                    </Grid>
+                        </StackLayout>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                                <StackLayout Grid.Row="0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                 <Label Text="{Binding TeacherName}"  HorizontalTextAlignment="Start" Grid.Column="0"/>
+                                <Label Text="{Binding SubjectName}" HorizontalTextAlignment="Start" Grid.Column="1" />
+                                <Label Text="{Binding Experience}" HorizontalTextAlignment="Center"  Grid.Column="2" />
+                            </Grid>
+                                </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

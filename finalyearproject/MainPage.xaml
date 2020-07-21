@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="finalyearproject.MainPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout>
+                <Label Text="Automatic Subject Allocation and Timetable Generation for University Semester System" Padding="5,10,0,10"
+                   HorizontalOptions="FillAndExpand" BackgroundColor="DarkGreen" TextColor="White" FontSize="20"/>
+            </StackLayout>
+            <StackLayout Padding="40">
+                <Image Source="untitled.png" HorizontalOptions="Center"/>
+            </StackLayout>
+            <StackLayout Padding="5,40,5,0">
+                <Button Text="Admin" Clicked="Admin_Clicked" HorizontalOptions="FillAndExpand" 
+                    BackgroundColor="DarkGreen" TextColor="White" FontSize="20"/>
+            </StackLayout>
+            <StackLayout Padding="5,40,5,0">
+            <Button Text="Staff" Clicked="Staff_Clicked" HorizontalOptions="FillAndExpand" 
+                    BackgroundColor="DarkGreen" TextColor="White" FontSize="20"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

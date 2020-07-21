@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="finalyearproject.AdminDetails.Allotment.AllotmentPage" Title="Allotment Details" >
+    <ScrollView>
+        <Grid>
+            <StackLayout Padding="10">
+                <Picker x:Name="SubjectPicker" ItemDisplayBinding="{Binding Name}"  SelectedIndexChanged="SubjectPicker_SelectedIndexChanged" Title="Select Subject">
+                </Picker>
+                <Entry x:Name="txtTeacherName" FontSize="20"></Entry>
+                <Entry x:Name="txtTeacherID" ></Entry>
+                <Picker x:Name="CoursePicker" ItemDisplayBinding="{Binding CourseType}" Title="Select Course">
+                </Picker>
+                <Picker x:Name="classPicker" ItemDisplayBinding="{Binding Name}" Title="Select ClassRooms">
+                </Picker>
+                <Picker x:Name="dayPicker" Title="Select Day">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Monday</x:String>
+                            <x:String>Tuesday</x:String>
+                            <x:String>Wednesday</x:String>
+                            <x:String>Thursday</x:String>
+                            <x:String>Friday</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <Picker x:Name="timePicker" Title="Select Class Time">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>8 AM TO 9 AM</x:String>
+                            <x:String>9 AM TO 10 AM</x:String>
+                            <x:String>10 AM TO 11 AM</x:String>
+                            <x:String>11 AM TO 12 PM</x:String>
+                            <x:String>12 2PM TO 1 PM</x:String>
+                            <x:String>1 PM TO 2 PM</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <StackLayout Padding="20,10,20,10">
+                    <Button  Text="Allot" BackgroundColor="DarkGreen"  FontAttributes="Bold"  TextColor="White" Clicked="Allot_Clicked"/>
+                </StackLayout>
+                <ListView x:Name="list" HasUnevenRows="True" SeparatorVisibility="Default">
+                    <ListView.Header>
+                        <Grid>
+                            <Label Grid.Column="0" Grid.Row="0" Text="Subject Code" FontAttributes="Bold" Padding="10,0,0,0"/>
+                            <Label Grid.Column="1" Grid.Row="0" Text="Subject Title" FontAttributes="Bold"/>
+                            <Label Grid.Column="2" Grid.Row="0" Text="Faculty No." FontAttributes="Bold"/>
+                            <Label Grid.Column="3" Grid.Row="0" Text="Teacher's Name" FontAttributes="Bold"/>
+                            <Label Grid.Column="4" Grid.Row="0" Text="Course Type" FontAttributes="Bold"/>
+                        </Grid>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Spacing="2">
+                                    <Grid>
+                                        <Label Grid.Column="0" x:Name ="SubjectCode" Text="{Binding SubjectID}" Padding="10,0,0,0"/>
+                                        <Label Grid.Column="1" x:Name="SubjectTitle" Text="{Binding SubjectTitle}"/>
+                                        <Label Grid.Column="2" x:Name="FacultyNo" Text="{Binding TeacherID}"/>
+                                        <Label Grid.Column="3" x:Name="TeacherName" Text="{Binding TeacherName}"/>
+                                        <Label Grid.Column="4" x:Name="CourseType" Text="{Binding ACourseType}"/>
+                                    </Grid>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </Grid>
+
+
+    </ScrollView>
+</ContentPage>

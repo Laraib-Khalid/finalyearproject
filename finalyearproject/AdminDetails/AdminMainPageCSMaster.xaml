@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:finalyearproject.AdminDetails"
+             mc:Ignorable="d"
+             x:Class="finalyearproject.AdminDetails.AdminMainPageCSMaster" 
+             Padding="0,40,0,0"
+             IconImageSource="roundedmenu.png"
+             Title="Admin">
+    <ContentPage.Content>
+    <StackLayout>
+            <ListView x:Name="listView" x:FieldModifier="public" HasUnevenRows="True" ItemTapped="listView_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell Tapped="ViewCell_Tapped">
+                        <StackLayout>
+                                <Grid Padding="5,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label x:Name="list" TextColor="{Binding TextColor}" Grid.Column="1" Text="{Binding Title}" FontSize="Medium"/>
+                                </Grid>
+                            </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Text="Logout" x:Name="btnLogout" HorizontalOptions="FillAndExpand" TextColor="White" BackgroundColor="DarkGreen" BorderColor="Transparent" Clicked="btnLogout_Clicked"/>
+    </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

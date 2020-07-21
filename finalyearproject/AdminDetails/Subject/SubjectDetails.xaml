@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="finalyearproject.AdminDetails.SubjectDetails" Title="Subject Details">
+    <ContentPage.Content>
+        <ScrollView>
+        <StackLayout>
+                <Button Text="Add Subject" FontSize="20" 
+                   HorizontalOptions="FillAndExpand" BackgroundColor="DarkGreen" 
+                   TextColor="White" Clicked="AddSubject" Margin="15"/>
+                <ListView x:Name="SubjectList" HasUnevenRows="True" ItemTapped="UpdateSubject" SeparatorVisibility="None">
+                <ListView.Header>
+                    <Grid>
+                        <Label Grid.Column="0" Grid.Row="0" Text="Name" FontAttributes="Bold" Padding="5,0,0,0"/>
+                        <Label Grid.Column="1" Grid.Row="0" Text="Code" FontAttributes="Bold"/>
+                        <Label Grid.Column="2" Grid.Row="0" Text="Course Type" FontAttributes="Bold"/>
+                        <Label Grid.Column="3" Grid.Row="0" Text="Semester" FontAttributes="Bold"/>
+                        <Label Grid.Column="4" Grid.Row="0" Text="Department" FontAttributes="Bold"/>
+                    </Grid>
+                </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell Tapped="ViewCell_Tapped">
+                                <ViewCell.ContextActions>
+                                    <MenuItem Text="Delete" Clicked="DeleteSubject" IsDestructive="True" CommandParameter="{Binding .}"/>
+                                </ViewCell.ContextActions>
+                                <StackLayout>
+                                <Grid>
+                                        <Label Grid.Column="0" Text="{Binding Name}" Padding="5,0,0,0"/>
+                                        <Label Grid.Column="1" Text="{Binding Code}"/>
+                                        <Label Grid.Column="2" Text="{Binding CourseType}"/>
+                                        <Label Grid.Column="3" Text="{Binding Semester}"/>
+                                        <Label Grid.Column="4" Text="{Binding Department}"/>
+                                </Grid>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

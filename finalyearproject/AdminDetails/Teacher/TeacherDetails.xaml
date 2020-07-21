@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="finalyearproject.AdminDetails.TeacherDetails" Title="Teacher Details">
+    <ContentPage.Content>
+        <ScrollView>
+        <StackLayout>
+            <Button Text="Add Teacher" FontSize="20" 
+                   HorizontalOptions="FillAndExpand" BackgroundColor="DarkGreen" 
+                   TextColor="White" Clicked="AddTeacher" Margin="15"/>
+            <ListView x:Name="TeacherList" HasUnevenRows="True" ItemTapped="UpdateTeacher" SeparatorVisibility="None">
+                <ListView.Header>
+                    <Grid>
+                        <Label Grid.Column="0" Grid.Row="0" Text="Faculty No" FontAttributes="Bold" Padding="10,0,0,0"/>
+                        <Label Grid.Column="1" Grid.Row="0" Text="Name" FontAttributes="Bold"/>
+                        <Label Grid.Column="2" Grid.Row="0" Text="Designation" FontAttributes="Bold"/>
+                        <Label Grid.Column="3" Grid.Row="0" Text="Contact No" FontAttributes="Bold"/>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Tapped="ViewCell_Tapped">
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="Delete" Clicked="DeleteTeacher" IsDestructive="True" CommandParameter="{Binding .}"/>
+                            </ViewCell.ContextActions>
+                            <StackLayout>
+                                <Grid>
+                                        <Label Grid.Column="0" Text="{Binding FacultyNo}" Padding="10,0,0,0"/>
+                                        <Label Grid.Column="1" Text="{Binding Name}"/>
+                                        <Label Grid.Column="2" Text="{Binding Designation}"/>
+                                        <Label Grid.Column="3" Text="{Binding ContactNo}"/>
+                                </Grid>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

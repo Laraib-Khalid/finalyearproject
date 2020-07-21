@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="finalyearproject.AddTeacherPage" Title="Add Teacher">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="10">
+                <Label Text="Teacher's Name " FontSize="20" FontAttributes="Bold"/>
+                <Entry Text="{Binding Name}" x:Name="Name" Keyboard="Text"/>
+                <Label x:Name="NameError" Text="The Name field is required." IsVisible="False" TextColor="Red" />
+                <Label Text="Faculty No" FontSize="20" FontAttributes="Bold"/>
+                <Entry Text="{Binding FacultyNo}" x:Name="FacultyNo"/>
+                <Label x:Name="FacultyError" Text="The Faculty No. field is required." IsVisible="False" TextColor="Red" />
+                <Label Text="Alias" FontSize="20" FontAttributes="Bold"/>
+                <Entry Text="{Binding Alias}" x:Name="Alias"/>
+                <Label x:Name="AliasError" Text="The Alias field is required." IsVisible="False" TextColor="Red" />
+                <Label Text="Designation" FontSize="20" FontAttributes="Bold"/>
+                <Picker x:Name="Designation" Title="Designation">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Teacher</x:String>
+                            <x:String>Professor</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <Label x:Name="DesignationError" Text="The Designation field is required." IsVisible="False" TextColor="Red" />
+                <Label Text="Contact Number" FontSize="20" FontAttributes="Bold"/>
+                <Entry Text="{Binding ContactNo}" x:Name="ContactNo" Keyboard="Telephone" MaxLength="11"/>
+                <Label x:Name="ContactError" Text="The Contact No. field is required." IsVisible="False" TextColor="Red" />
+                <Label Text="Email" FontSize="20" FontAttributes="Bold"/>
+                <Entry Text="{Binding Email}" x:Name="Email" Keyboard="Email"/>
+                <Label x:Name="EmailError" Text="The Email field is required." IsVisible="False" TextColor="Red"/>
+                <Label x:Name="EmailInvalid" Text="The Email field is invalid." IsVisible="False" TextColor="Red" />
+                <Label Text="Password" FontSize="20" FontAttributes="Bold"/>
+                <Entry x:Name="Password" Text="{Binding Password}"  IsPassword="True" IsVisible="True"/>
+                <Label x:Name="PasswordError" Text="The Password field is required." IsVisible="False" TextColor="Red"/>
+                
+                <Button Text="Add Teacher" FontSize="20" FontAttributes="Bold" 
+                BackgroundColor="DarkGreen" TextColor="White"
+                x:Name="addbtn" HorizontalOptions="FillAndExpand" Clicked="AddTeacher"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

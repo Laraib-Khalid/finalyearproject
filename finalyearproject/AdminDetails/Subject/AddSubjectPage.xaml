@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="finalyearproject.AdminDetails.Subject.AddSubjectPage" Title="Add Subject">
+    <ContentPage.Content>
+        <ScrollView>
+        <StackLayout Padding="10">
+            <Label Text="Subject Name " FontSize="20" FontAttributes="Bold"/>
+            <Entry Text="" x:Name="Name" Keyboard="Text"/>
+            <Label x:Name="NameError" Text="The Name field is required." IsVisible="False" TextColor="Red" />
+            <Label Text="Subject Code" FontSize="20" FontAttributes="Bold"/>
+            <Entry Text="" x:Name="Code"/>
+            <Label x:Name="CodeError" Text="The Code field is required." IsVisible="False" TextColor="Red" />
+            <Label Text="Course Type" FontSize="20" FontAttributes="Bold"/>
+            <Picker x:Name="CourseType" Title="Course Type">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Lab</x:String>
+                        <x:String>Theory</x:String>
+                        <x:String>Practical</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            <Label x:Name="CourseError" Text="The Course Type field is required." IsVisible="False" TextColor="Red" />
+            <Label Text="Semester" FontSize="20" FontAttributes="Bold"/>
+            <Picker x:Name="Semester" Title="Semester">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>1</x:String>
+                        <x:String>2</x:String>
+                        <x:String>3</x:String>
+                        <x:String>4</x:String>
+                        <x:String>5</x:String>
+                        <x:String>6</x:String>
+                        <x:String>7</x:String>
+                        <x:String>8</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            <Label x:Name="SemesterError" Text="The Semester field is required." IsVisible="False" TextColor="Red" />
+            <Label Text="Department" FontSize="20" FontAttributes="Bold"/>
+            <Picker x:Name="Department" Title="Department">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>IT</x:String>
+                        <x:String>BBA</x:String>
+                        <x:String>English</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            <Label x:Name="DepartmentError" Text="The Department field is required." IsVisible="False" TextColor="Red" />
+            <Button Text="Add Subject" FontSize="20" FontAttributes="Bold" 
+                   BackgroundColor="DarkGreen" TextColor="White"
+                    x:Name="addbtn" HorizontalOptions="FillAndExpand" Clicked="AddSubject"/>
+        </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

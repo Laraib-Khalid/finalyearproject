@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="finalyearproject.StaffLoginPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout>
+                <Label Text="Automatic Subject Allocation and Timetable Generation for University Semester System" Padding="5,10,0,10"
+                   HorizontalOptions="FillAndExpand" BackgroundColor="DarkGreen" TextColor="White" FontSize="20"/>
+            </StackLayout>
+            <StackLayout Padding="0,10,0,0">
+                <Label Text="Staff Login Page" TextColor="DarkGreen" FontSize="30" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+            </StackLayout>
+            <StackLayout Padding="20">
+                <Image Source="untitled.png" HorizontalOptions="Center"/>
+            </StackLayout>
+            <StackLayout Padding="5">
+                <Entry  x:Name="usr" Placeholder="Username" Text="{Binding login.UserName}"/>
+                <Label x:Name="login_UserNameError" Text="The Username field is required." IsVisible="False" TextColor="Red" />
+                <Label x:Name="login_UserNameIncorrect" Text="Userame Incorrect" IsVisible="False" TextColor="Red"/>
+                <Entry x:Name="password" Placeholder="Password" Text="{Binding login.Password}" IsPassword="True" IsVisible="True"/>
+                <Label x:Name="login_PasswordError" Text="The Password field is required." IsVisible="False" TextColor="Red" />
+                <Label x:Name="login_PasswordIncorrect" Text="Password Incorrect" IsVisible="False" TextColor="Red" />
+            </StackLayout>
+            <StackLayout Padding="5,20,5,0">
+                <Button Text="Login" Clicked="Login_Clicked" HorizontalOptions="FillAndExpand" 
+                    BackgroundColor="DarkGreen" TextColor="White" FontSize="20"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

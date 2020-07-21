@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="finalyearproject.AdminDetails.Classroom.AddClassroomPage" Title="Add Classroom">
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <Label Text="Classroom Name " FontSize="20" FontAttributes="Bold"/>
+            <Entry Text="{Binding Classrooms.Name}" x:Name="Name" Keyboard="Text"/>
+            <Label x:Name="ClassroomError" Text="The Name field is required." IsVisible="False" TextColor="Red" />
+            <Button Text="Add Classroom" FontSize="20" FontAttributes="Bold" 
+                   BackgroundColor="DarkGreen" TextColor="White"
+                    x:Name="addbtn" HorizontalOptions="FillAndExpand" Clicked="AddClassroom"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
