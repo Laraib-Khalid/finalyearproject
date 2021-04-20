@@ -15,10 +15,12 @@ namespace finalyearproject
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddTeacherPage : ContentPage
     {
+        public SQLiteConnection conn;
         Teacher teacherDetails;
         public AddTeacherPage(Teacher details)
         {
             InitializeComponent();
+            conn = DependencyService.Get<SQLiteInterface>().GetConnectionwithCreateDatabase();
             if (details != null)
             {
                 teacherDetails = details;
@@ -32,11 +34,11 @@ namespace finalyearproject
             Alias.Text = details.Alias;
             ContactNo.Text = details.ContactNo;
             Password.Text = details.Password;
-            Password.IsEnabled = false;
             Password.IsVisible = true;
             Password.IsPassword = false;
             Designation.SelectedItem = details.Designation;
             Email.Text = details.Email;
+            Subject.Text = details.Subject;
             addbtn.Text = "Update Teacher";
             this.Title = "Edit Teacher";
         }
@@ -1202,35 +1204,58 @@ namespace finalyearproject
                     PasswordError.IsVisible = false;
                 }
             }
+            else if (string.IsNullOrEmpty(Password.Text))
+            {
+
+                NameError.IsVisible = false;
+                FacultyError.IsVisible = false;
+                AliasError.IsVisible = false;
+                DesignationError.IsVisible = false;
+                ContactError.IsVisible = false;
+                EmailError.IsVisible = false;
+                PasswordError.IsVisible = true;
+            }
             else if (!isMatched)
             {
                     EmailInvalid.IsVisible = true;
                     NameError.IsVisible = false;
                     FacultyError.IsVisible = false;
                     AliasError.IsVisible = false;
+                    PasswordError.IsVisible = false;
                     DesignationError.IsVisible = false;
                     ContactError.IsVisible = false;
                     EmailError.IsVisible = false;
             }
             else if (addbtn.Text == "Add Teacher")
-            {
+            { 
                 Teacher te = new Teacher();
                 te.Name = Name.Text;
                 te.FacultyNo = FacultyNo.Text;
                 te.Alias = Alias.Text;
+                te.Password = Password.Text;
                 te.ContactNo = ContactNo.Text;
+                te.Subject = Subject.Text;
                 te.Designation = (string)Designation.SelectedItem;
                 te.Email = Email.Text;
-                bool res = DependencyService.Get<SQLiteInterface>().AddTeacher(te);
-                if (res)
+                var dup = conn.Query<Teacher>("Select * from Teacher where Name ='" + Name.Text + "'and FacultyNo='" + FacultyNo.Text + "'and Alias ='" + Alias.Text + "'" +
+                    "and Password = '" + Password.Text + "'and ContactNo='" + ContactNo.Text + "'and Designation='" + (string)Designation.SelectedItem + "'and Email='" + Email.Text + "'");
+                if (dup.Count == 0)
                 {
-                    var message = "Data saved Successfully.";
-                    DependencyService.Get<SQLiteInterface>().Shorttime(message);
-                    Navigation.PopAsync();
+                    bool res = DependencyService.Get<SQLiteInterface>().AddTeacher(te);
+                    if (res)
+                    {
+                        var message = "Data saved Successfully.";
+                        DependencyService.Get<SQLiteInterface>().Shorttime(message);
+                        Navigation.PopAsync();
+                    }
+                    else
+                    {
+                        DisplayAlert("Message", "Data Failed To Save", "OK");
+                    }
                 }
                 else
                 {
-                    DisplayAlert("Message", "Data Failed To Save", "OK");
+                    DisplayAlert("Message", "Data already exist", "OK");
                 }
             }
             else
@@ -1242,6 +1267,7 @@ namespace finalyearproject
                 teacherDetails.ContactNo = ContactNo.Text;
                 teacherDetails.Designation = (string)Designation.SelectedItem;
                 teacherDetails.Email = Email.Text;
+                teacherDetails.Subject = Subject.Text;
                 bool res = DependencyService.Get<SQLiteInterface>().UpdateTeacher(teacherDetails);
                 if (res)
                 {

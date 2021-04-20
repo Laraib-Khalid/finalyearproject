@@ -4,7 +4,9 @@ using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
+using Syncfusion.Pdf;
+using Syncfusion.Pdf.Graphics;
+using Syncfusion.Drawing;
 namespace finalyearproject
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -39,10 +41,19 @@ namespace finalyearproject
             if (TeacherPicker.SelectedIndex != -1)
             {
                 var selectedTeacher = (Teacher)TeacherPicker.SelectedItem;
-                int teacherID = selectedTeacher.Id;
-                var slist= DependencyService.Get<SQLiteInterface>().GetTeacherAllotments(teacherID);
+                int teacherID = selectedTeacher.ID;
+                var teacherName = selectedTeacher.Name.ToString();
+                var mlist= DependencyService.Get<SQLiteInterface>().GetTeacherAllotments(teacherID);
+                var tlist = DependencyService.Get<SQLiteInterface>().GetTeacherAllotments(teacherID);
+                var wlist = DependencyService.Get<SQLiteInterface>().GetTeacherAllotments(teacherID);
+                var thlist = DependencyService.Get<SQLiteInterface>().GetTeacherAllotments(teacherID);
+                var flist = DependencyService.Get<SQLiteInterface>().GetTeacherAllotments(teacherID);
                 list.ItemsSource = null;
-                list.ItemsSource = slist;
+                list.ItemsSource = flist;
+                list.IsVisible = true;
+                txtteacher.Text = teacherName;
+                txtteacher.IsVisible = true;
+                txtclass.IsVisible = false;
             }
             else
             {
@@ -50,7 +61,7 @@ namespace finalyearproject
             }
         }
 
-        private void gsubjectbtn_Clicked(object sender, EventArgs e)
+        private void gclassroombtn_Clicked(object sender, EventArgs e)
         {
             _ = classroomActionAsync();
         }
@@ -60,14 +71,24 @@ namespace finalyearproject
             {
                 var selectedClassroom = (Classrooms)ClassroomPicker.SelectedItem;
                 int classroomID = selectedClassroom.Id;
+                var classroomName = selectedClassroom.Name.ToString();
                 var slist = DependencyService.Get<SQLiteInterface>().GetClassroomAllotments(classroomID);
                 list.ItemsSource = null;
                 list.ItemsSource = slist;
+                list.IsVisible = true;
+                txtclass.Text = classroomName;
+                txtclass.IsVisible = true;
+                txtteacher.IsVisible = false;
             }
             else
             {
                 await DisplayAlert("Title", "Please select any Classroom", "", "Yes");
             }
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            PdfDocument document = new PdfDocument();
         }
     }
 }

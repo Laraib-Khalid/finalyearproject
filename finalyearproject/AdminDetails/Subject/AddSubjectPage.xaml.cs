@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,22 +14,37 @@ namespace finalyearproject.AdminDetails.Subject
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddSubjectPage : ContentPage
     {
+        public SQLiteConnection conn;
         Subjects subjectDetails;
         public AddSubjectPage(Subjects details)
         {
             InitializeComponent();
+            conn = DependencyService.Get<SQLiteInterface>().GetConnectionwithCreateDatabase();
+            setDepartment();
             if (details != null)
             {
                 subjectDetails = details;
                 PopulateDetails(subjectDetails);
             }
         }
+        private void setDepartment()
+        {
+            var getDepartment = conn.Query<Classrooms>("SELECT DISTINCT Department FROM Classrooms");
+            Department.ItemsSource = getDepartment;
+        }
+
+        private void Department_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var department = (Classrooms)Department.SelectedItem;
+            var getClass = conn.Query<Classrooms>("SELECT DISTINCT Id,Name FROM Classrooms where Department = '" + department.Department + "'");
+            Classroom.ItemsSource = getClass;
+        }
         private void PopulateDetails(Subjects details)
         {
             Name.Text = details.Name;
             Code.Text = details.Code;
             CourseType.SelectedItem = details.CourseType;
-            Semester.SelectedItem = details.Semester;
+            Classroom.SelectedItem = details.ClassRoom;
             Department.SelectedItem = details.Department;
             addbtn.Text = "Update Subject";
             this.Title = "Edit Subject";
@@ -40,13 +57,13 @@ namespace finalyearproject.AdminDetails.Subject
                 {
                     if (string.IsNullOrEmpty((string)CourseType.SelectedItem))
                     {
-                        if (string.IsNullOrEmpty((string)Semester.SelectedItem))
+                        if ((Classrooms)Classroom.SelectedItem==null)
                         {
-                            if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                            if ((Classrooms)Department.SelectedItem==null)
                             {
                                 NameError.IsVisible = true;
                                 CodeError.IsVisible = true;
-                                SemesterError.IsVisible = true;
+                                ClassroomError.IsVisible = true;
                                 CourseError.IsVisible = true;
                                 DepartmentError.IsVisible = true;
                             }
@@ -54,16 +71,16 @@ namespace finalyearproject.AdminDetails.Subject
                             {
                                 NameError.IsVisible = true;
                                 CodeError.IsVisible = true;
-                                SemesterError.IsVisible = true;
+                                ClassroomError.IsVisible = true;
                                 CourseError.IsVisible = true;
                                 DepartmentError.IsVisible = false;
                             }
                         }
-                        else if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                        else if ((Classrooms)Department.SelectedItem == null)
                         {
                             NameError.IsVisible = true;
                             CodeError.IsVisible = true;
-                            SemesterError.IsVisible = false;
+                            ClassroomError.IsVisible = false;
                             CourseError.IsVisible = true;
                             DepartmentError.IsVisible = true;
                         }
@@ -71,18 +88,18 @@ namespace finalyearproject.AdminDetails.Subject
                         {
                             NameError.IsVisible = true;
                             CodeError.IsVisible = true;
-                            SemesterError.IsVisible = false;
+                            ClassroomError.IsVisible = false;
                             CourseError.IsVisible = true;
                             DepartmentError.IsVisible = false;
                         }
                     }
-                    else if (string.IsNullOrEmpty((string)Semester.SelectedItem))
+                    else if ((Classrooms)Classroom.SelectedItem == null)
                     {
-                        if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                        if ((Classrooms)Department.SelectedItem == null)
                         {
                             NameError.IsVisible = true;
                             CodeError.IsVisible = true;
-                            SemesterError.IsVisible = true;
+                            ClassroomError.IsVisible = true;
                             CourseError.IsVisible = false;
                             DepartmentError.IsVisible = true;
                         }
@@ -90,16 +107,16 @@ namespace finalyearproject.AdminDetails.Subject
                         {
                             NameError.IsVisible = true;
                             CodeError.IsVisible = true;
-                            SemesterError.IsVisible = true;
+                            ClassroomError.IsVisible = true;
                             CourseError.IsVisible = false;
                             DepartmentError.IsVisible = false;
                         }
                     }
-                    else if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                    else if ((Classrooms)Department.SelectedItem == null)
                     {
                         NameError.IsVisible = true;
                         CodeError.IsVisible = true;
-                        SemesterError.IsVisible = false;
+                        ClassroomError.IsVisible = false;
                         CourseError.IsVisible = false;
                         DepartmentError.IsVisible = true;
                     }
@@ -107,20 +124,20 @@ namespace finalyearproject.AdminDetails.Subject
                     {
                         NameError.IsVisible = true;
                         CodeError.IsVisible = true;
-                        SemesterError.IsVisible = false;
+                        ClassroomError.IsVisible = false;
                         CourseError.IsVisible = false;
                         DepartmentError.IsVisible = false;
                     }
                 }
                 else if (string.IsNullOrEmpty((string)CourseType.SelectedItem))
                 {
-                    if (string.IsNullOrEmpty((string)Semester.SelectedItem))
+                    if ((Classrooms)Classroom.SelectedItem == null)
                     {
-                        if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                        if ((Classrooms)Department.SelectedItem == null)
                         {
                             NameError.IsVisible = true;
                             CodeError.IsVisible = false;
-                            SemesterError.IsVisible = true;
+                            ClassroomError.IsVisible = true;
                             CourseError.IsVisible = true;
                             DepartmentError.IsVisible = true;
                         }
@@ -128,16 +145,16 @@ namespace finalyearproject.AdminDetails.Subject
                         {
                             NameError.IsVisible = true;
                             CodeError.IsVisible = false;
-                            SemesterError.IsVisible = true;
+                            ClassroomError.IsVisible = true;
                             CourseError.IsVisible = true;
                             DepartmentError.IsVisible = false;
                         }
                     }
-                    else if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                    else if ((Classrooms)Department.SelectedItem == null)
                     {
                         NameError.IsVisible = true;
                         CodeError.IsVisible = false;
-                        SemesterError.IsVisible = false;
+                        ClassroomError.IsVisible = false;
                         CourseError.IsVisible = true;
                         DepartmentError.IsVisible = true;
                     }
@@ -145,18 +162,18 @@ namespace finalyearproject.AdminDetails.Subject
                     {
                         NameError.IsVisible = true;
                         CodeError.IsVisible = false;
-                        SemesterError.IsVisible = false;
+                        ClassroomError.IsVisible = false;
                         CourseError.IsVisible = true;
                         DepartmentError.IsVisible = false;
                     }
                 }
-                else if (string.IsNullOrEmpty((string)Semester.SelectedItem))
+                else if ((Classrooms)Classroom.SelectedItem == null)
                 {
-                    if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                    if ((Classrooms)Department.SelectedItem == null)
                     {
                         NameError.IsVisible = true;
                         CodeError.IsVisible = false;
-                        SemesterError.IsVisible = true;
+                        ClassroomError.IsVisible = true;
                         CourseError.IsVisible = false;
                         DepartmentError.IsVisible = true;
                     }
@@ -164,16 +181,16 @@ namespace finalyearproject.AdminDetails.Subject
                     {
                         NameError.IsVisible = true;
                         CodeError.IsVisible = false;
-                        SemesterError.IsVisible = true;
+                        ClassroomError.IsVisible = true;
                         CourseError.IsVisible = false;
                         DepartmentError.IsVisible = false;
                     }
                 }
-                else if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                else if ((Classrooms)Department.SelectedItem == null)
                 {
                     NameError.IsVisible = true;
                     CodeError.IsVisible = false;
-                    SemesterError.IsVisible = false;
+                    ClassroomError.IsVisible = false;
                     CourseError.IsVisible = false;
                     DepartmentError.IsVisible = true;
                 }
@@ -181,7 +198,7 @@ namespace finalyearproject.AdminDetails.Subject
                 {
                     NameError.IsVisible = true;
                     CodeError.IsVisible = false;
-                    SemesterError.IsVisible = false;
+                    ClassroomError.IsVisible = false;
                     CourseError.IsVisible = false;
                     DepartmentError.IsVisible = false;
                 }
@@ -190,13 +207,13 @@ namespace finalyearproject.AdminDetails.Subject
             {
                 if (string.IsNullOrEmpty((string)CourseType.SelectedItem))
                 {
-                    if (string.IsNullOrEmpty((string)Semester.SelectedItem))
+                    if ((Classrooms)Classroom.SelectedItem == null)
                     {
-                        if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                        if ((Classrooms)Department.SelectedItem == null)
                         {
                             NameError.IsVisible = false;
                             CodeError.IsVisible = true;
-                            SemesterError.IsVisible = true;
+                            ClassroomError.IsVisible = true;
                             CourseError.IsVisible = true;
                             DepartmentError.IsVisible = true;
                         }
@@ -204,16 +221,16 @@ namespace finalyearproject.AdminDetails.Subject
                         {
                             NameError.IsVisible = false;
                             CodeError.IsVisible = true;
-                            SemesterError.IsVisible = true;
+                            ClassroomError.IsVisible = true;
                             CourseError.IsVisible = true;
                             DepartmentError.IsVisible = false;
                         }
                     }
-                    else if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                    else if ((Classrooms)Department.SelectedItem == null)
                     {
                         NameError.IsVisible = false;
                         CodeError.IsVisible = true;
-                        SemesterError.IsVisible = false;
+                        ClassroomError.IsVisible = false;
                         CourseError.IsVisible = true;
                         DepartmentError.IsVisible = true;
                     }
@@ -221,18 +238,18 @@ namespace finalyearproject.AdminDetails.Subject
                     {
                         NameError.IsVisible = false;
                         CodeError.IsVisible = true;
-                        SemesterError.IsVisible = false;
+                        ClassroomError.IsVisible = false;
                         CourseError.IsVisible = true;
                         DepartmentError.IsVisible = false;
                     }
                 }
-                else if (string.IsNullOrEmpty((string)Semester.SelectedItem))
+                else if ((Classrooms)Classroom.SelectedItem == null)
                 {
-                    if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                    if ((Classrooms)Department.SelectedItem == null)
                     {
                         NameError.IsVisible = false;
                         CodeError.IsVisible = true;
-                        SemesterError.IsVisible = true;
+                        ClassroomError.IsVisible = true;
                         CourseError.IsVisible = false;
                         DepartmentError.IsVisible = true;
                     }
@@ -240,16 +257,16 @@ namespace finalyearproject.AdminDetails.Subject
                     {
                         NameError.IsVisible = false;
                         CodeError.IsVisible = true;
-                        SemesterError.IsVisible = true;
+                        ClassroomError.IsVisible = true;
                         CourseError.IsVisible = false;
                         DepartmentError.IsVisible = false;
                     }
                 }
-                else if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                else if ((Classrooms)Department.SelectedItem == null)
                 {
                     NameError.IsVisible = false;
                     CodeError.IsVisible = true;
-                    SemesterError.IsVisible = false;
+                    ClassroomError.IsVisible = false;
                     CourseError.IsVisible = false;
                     DepartmentError.IsVisible = true;
                 }
@@ -257,7 +274,7 @@ namespace finalyearproject.AdminDetails.Subject
                 {
                     NameError.IsVisible = false;
                     CodeError.IsVisible = true;
-                    SemesterError.IsVisible = false;
+                    ClassroomError.IsVisible = false;
                     CourseError.IsVisible = false;
                     DepartmentError.IsVisible = false;
                 }
@@ -265,13 +282,13 @@ namespace finalyearproject.AdminDetails.Subject
             
             else if (string.IsNullOrEmpty((string)CourseType.SelectedItem))
             {
-                if (string.IsNullOrEmpty((string)Semester.SelectedItem))
+                if ((Classrooms)Classroom.SelectedItem == null)
                 {
-                    if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                    if ((Classrooms)Department.SelectedItem == null)
                     {
                         NameError.IsVisible = false;
                         CodeError.IsVisible = false;
-                        SemesterError.IsVisible = true;
+                        ClassroomError.IsVisible = true;
                         CourseError.IsVisible = true;
                         DepartmentError.IsVisible = true;
                     }
@@ -279,16 +296,16 @@ namespace finalyearproject.AdminDetails.Subject
                     {
                         NameError.IsVisible = false;
                         CodeError.IsVisible = false;
-                        SemesterError.IsVisible = true;
+                        ClassroomError.IsVisible = true;
                         CourseError.IsVisible = true;
                         DepartmentError.IsVisible = false;
                     }
                 }
-                else if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                else if ((Classrooms)Department.SelectedItem == null)
                 {
                     NameError.IsVisible = false;
                     CodeError.IsVisible = false;
-                    SemesterError.IsVisible = false;
+                    ClassroomError.IsVisible = false;
                     CourseError.IsVisible = true;
                     DepartmentError.IsVisible = true;
                 }
@@ -296,18 +313,18 @@ namespace finalyearproject.AdminDetails.Subject
                 {
                     NameError.IsVisible = false;
                     CodeError.IsVisible = false;
-                    SemesterError.IsVisible = false;
+                    ClassroomError.IsVisible = false;
                     CourseError.IsVisible = true;
                     DepartmentError.IsVisible = false;
                 }
             }
-            else if (string.IsNullOrEmpty((string)Semester.SelectedItem))
+            else if ((Classrooms)Classroom.SelectedItem == null)
             {
-                if (string.IsNullOrEmpty((string)Department.SelectedItem))
+                if ((Classrooms)Department.SelectedItem == null)
                 {
                     NameError.IsVisible = false;
                     CodeError.IsVisible = false;
-                    SemesterError.IsVisible = true;
+                    ClassroomError.IsVisible = true;
                     CourseError.IsVisible = false;
                     DepartmentError.IsVisible = true;
                 }
@@ -315,58 +332,80 @@ namespace finalyearproject.AdminDetails.Subject
                 {
                     NameError.IsVisible = false;
                     CodeError.IsVisible = false;
-                    SemesterError.IsVisible = true;
+                    ClassroomError.IsVisible = true;
                     CourseError.IsVisible = false;
                     DepartmentError.IsVisible = false;
                 }
             }
-            else if (string.IsNullOrEmpty((string)Department.SelectedItem))
+            else if ((Classrooms)Department.SelectedItem == null)
             {
                 NameError.IsVisible = false;
                 CodeError.IsVisible = false;
-                SemesterError.IsVisible = false;
+                ClassroomError.IsVisible = false;
                 CourseError.IsVisible = false;
                 DepartmentError.IsVisible = true;
             }
             else if (addbtn.Text == "Add Subject")
             {
+
+                var SelectedDepartment = (Classrooms)Department.SelectedItem;
+                var SelectedClassroom = (Classrooms)Classroom.SelectedItem;
                 Subjects sub = new Subjects();
                 sub.Name = Name.Text;
                 sub.Code = Code.Text;
                 sub.CourseType = (string)CourseType.SelectedItem;
-                sub.Semester = (string)Semester.SelectedItem;
-                sub.Department = (string)Department.SelectedItem;
-                bool res = DependencyService.Get<SQLiteInterface>().AddSubject(sub);
-                if (res)
+                sub.ClassRoom = SelectedClassroom.Name;
+                sub.Department = SelectedDepartment.Department;
+                var chkDuplication = conn.Query<Subjects>("SELECT * FROM Subjects where Name='" + Name.Text + "' and Code='" + Code.Text + "' and CourseType='"+CourseType.SelectedItem+"'and ClassRoom='"+SelectedClassroom.Name+"'and Department='"+SelectedDepartment.Department+"'");
+                if (chkDuplication.Count == 0)
                 {
-                    var message = "Data saved Successfully.";
-                    DependencyService.Get<SQLiteInterface>().Shorttime(message);
-                    Navigation.PopAsync();
+                    bool res = DependencyService.Get<SQLiteInterface>().AddSubject(sub);
+                    if (res)
+                    {
+                        var message = "Data saved Successfully.";
+                        DependencyService.Get<SQLiteInterface>().Shorttime(message);
+                        Navigation.PopAsync();
+                    }
+                    else
+                    {
+                        DisplayAlert("Message", "Data Failed To Save", "OK");
+                    }
                 }
                 else
                 {
-                    DisplayAlert("Message", "Data Failed To Save", "OK");
+                    DisplayAlert("Warning", "Data already exist", "", "Yes");
                 }
             }
             else
             {
+                var SelectedDepartment = (Classrooms)Department.SelectedItem;
+                var SelectedClassroom = (Classrooms)Classroom.SelectedItem;
                 subjectDetails.Name = Name.Text;
                 subjectDetails.Code = Code.Text;
                 subjectDetails.CourseType = (string)CourseType.SelectedItem;
-                subjectDetails.Semester = (string)Semester.SelectedItem;
-                subjectDetails.Department = (string)Department.SelectedItem;
-                bool res = DependencyService.Get<SQLiteInterface>().UpdateSubject(subjectDetails);
-                if (res)
+                subjectDetails.ClassRoom = SelectedClassroom.Name;
+                subjectDetails.Department = SelectedDepartment.Department;
+                var chkDuplication = conn.Query<Subjects>("SELECT * FROM Subjects where Name='" + Name.Text + "' and Code='" + Code.Text + "' and CourseType='" + CourseType.SelectedItem + "'and ClassRoom='" + SelectedClassroom.Name + "'and Department='" + SelectedDepartment.Department + "'");
+                if (chkDuplication.Count == 0)
                 {
-                    var message = "Data update Successfully.";
-                    DependencyService.Get<SQLiteInterface>().Shorttime(message);
-                    Navigation.PopAsync();
+                    bool res = DependencyService.Get<SQLiteInterface>().UpdateSubject(subjectDetails);
+                    if (res)
+                    {
+                        var message = "Data update Successfully.";
+                        DependencyService.Get<SQLiteInterface>().Shorttime(message);
+                        Navigation.PopAsync();
+                    }
+                    else
+                    {
+                        DisplayAlert("Message", "Data Failed To Update", "OK");
+
+                    }
                 }
                 else
                 {
-                    DisplayAlert("Message", "Data Failed To Update", "OK");
-
+                    DisplayAlert("Warning", "Data already exist", "", "Yes");
                 }
             }
         }
+
     } }

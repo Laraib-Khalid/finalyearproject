@@ -25,56 +25,57 @@ namespace finalyearproject
 
         private void Login_Clicked(object sender, EventArgs e)
         {
-            //var data = conn.Table<Teacher>();
-            //var data1 = data.Where(x => x.Name==usr.Text).FirstOrDefault();
-            //var data2 = data.Where(x => x.Password == password.Text).FirstOrDefault();
-            //if (string.IsNullOrEmpty(usr.Text))
-            //{
-            //    if (string.IsNullOrEmpty(password.Text))
-            //    {
-            //        login_UserNameError.IsVisible = true;
-            //        login_PasswordError.IsVisible = true;
-            //    }
-            //    else
-            //    {
-            //        login_UserNameError.IsVisible = true;
-            //        login_PasswordError.IsVisible = false;
-            //    }
-            //}
-            //else if (string.IsNullOrEmpty(password.Text))
-            //{
-            //    login_PasswordError.IsVisible = true;
-            //    login_UserNameError.IsVisible = false;
-            //}
-            //else if (data1!=null & data2!=null)
-            //{
-                Navigation.PushAsync(new StaffMasterDetailPage(usr.Text));
+           
+            var restult = conn.Query<Teacher>("select * from Teacher where Name='"+usr.Text+ "' and Password='" + password.Text+"'").FirstOrDefault();
+            var UserName = conn.Query<Teacher>("select Name from Teacher where Name='" + usr.Text + "'").FirstOrDefault();
+            var UserPassword = conn.Query<Teacher>("select Password from Teacher where  Password='" + password.Text + "'").FirstOrDefault();
+            if (string.IsNullOrEmpty(usr.Text))
+            {
+                if (string.IsNullOrEmpty(password.Text))
+                {
+                    login_UserNameError.IsVisible = true;
+                    login_PasswordError.IsVisible = true;
+                }
+                else
+                {
+                    login_UserNameError.IsVisible = true;
+                    login_PasswordError.IsVisible = false;
+                }
+            }
+            else if (string.IsNullOrEmpty(password.Text))
+            {
+                login_PasswordError.IsVisible = true;
+                login_UserNameError.IsVisible = false;
+            }
+            else if (UserName == null)
+            {
+                if (UserPassword == null)
+                {
+                    login_PasswordIncorrect.IsVisible = true;
+                    login_UserNameIncorrect.IsVisible = true;
+                    login_PasswordError.IsVisible = false;
+                    login_UserNameError.IsVisible = false;
+                }
+                else
+                {
+                    login_PasswordIncorrect.IsVisible = false;
+                    login_UserNameIncorrect.IsVisible = true;
+                    login_PasswordError.IsVisible = false;
+                    login_UserNameError.IsVisible = false;
+                }
+            }
+            else if (UserPassword == null)
+            {
+                login_PasswordIncorrect.IsVisible = true;
+                login_UserNameIncorrect.IsVisible = false;
+                login_PasswordError.IsVisible = false;
+                login_UserNameError.IsVisible = false;
+            }
+            else if (UserName!=null)
+            {
+                Navigation.PushAsync(new StaffMasterDetailPage(restult));
                 Clear();
-            //}
-            //else if(data1==null)
-            //{
-            //   if(data2==null)
-            //    {
-            //        login_PasswordIncorrect.IsVisible = true;
-            //        login_UserNameIncorrect.IsVisible = true;
-            //        login_PasswordError.IsVisible = false;
-            //        login_UserNameError.IsVisible = false;
-            //    }
-            //   else
-            //    {
-            //        login_PasswordIncorrect.IsVisible = false;
-            //        login_UserNameIncorrect.IsVisible = true;
-            //        login_PasswordError.IsVisible = false;
-            //        login_UserNameError.IsVisible = false;
-            //    }
-            //}
-            //else if(data2==null)
-            //{
-            //    login_PasswordIncorrect.IsVisible = true;
-            //    login_UserNameIncorrect.IsVisible = false;
-            //    login_PasswordError.IsVisible = false;
-            //    login_UserNameError.IsVisible = false;
-            //}
+            }
         }
         void Clear()
         {

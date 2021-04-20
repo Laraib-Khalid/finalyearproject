@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="finalyearproject.AdminDetails.DayTimePage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Day" FontSize="20" FontAttributes="Bold"/>
+            <Entry Text="{Binding Day}" x:Name="Day" Placeholder="Enter Day Name" Keyboard="Text"/>
+            <Label Text="Time" FontSize="20" FontAttributes="Bold"/>
+            <Entry Text="{Binding Time}" x:Name="Time" Placeholder="Enter Time" Keyboard="Text"/>
+            <Button Text="Add" FontSize="20" FontAttributes="Bold" 
+                   BackgroundColor="DarkGreen" TextColor="White"
+                    x:Name="addbtn" HorizontalOptions="FillAndExpand" Clicked="addbtn_Clicked"/>
+
+        <ListView x:Name="list" HasUnevenRows="True" SeparatorVisibility="None">
+            <ListView.Header>
+                <Grid>
+                    <Label Grid.Column="0" Grid.Row="0" Text="ID" FontAttributes="Bold" Padding="10,0,0,0"/>
+                    <Label Grid.Column="1" Grid.Row="0" Text="Day" FontAttributes="Bold"/>
+                    <Label Grid.Column="2" Grid.Row="0" Text="Time" FontAttributes="Bold"/>
+                </Grid>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Delete" Clicked="Delete" IsDestructive="True" CommandParameter="{Binding .}"/>
+                        </ViewCell.ContextActions>
+                        <StackLayout>
+                            <Grid>
+                                <Label  Grid.Column="0" Grid.Row="1" Text="{Binding Id}" Padding="10,0,0,0"/>
+                                <Label  Grid.Column="1" Grid.Row="1" Text="{Binding Day}"/>
+                                <Label  Grid.Column="2" Grid.Row="1" Text="{Binding Time}"/>
+                            </Grid>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -8,14 +8,16 @@
     <ScrollView>
         <Grid>
             <StackLayout Padding="10">
-                <Picker x:Name="TeacherPicker" ItemDisplayBinding="{Binding Name}"  Title="Select Subject">
+                <Button Text="Generate PDF" Clicked="Button_Clicked" HorizontalOptions="Center"/>
+                <Picker x:Name="TeacherPicker" ItemDisplayBinding="{Binding Name}"  Title="Select Teacher">
                 </Picker>
-                <Button Text="Generate" x:Name="gteacherbtn" Clicked="gteacherbtn_Clicked"></Button>
-                <Picker x:Name="ClassroomPicker" ItemDisplayBinding="{Binding Name}"  Title="Select Classroom">
+                <Button Text="Generate" TextColor="White" x:Name="gteacherbtn" BackgroundColor="DarkGreen"  Clicked="gteacherbtn_Clicked"></Button>
+                <Picker x:Name="ClassroomPicker" ItemDisplayBinding="{Binding Name}" Title="Select Classroom">
                 </Picker>
-                <Button Text="Generate" x:Name="gsubjectbtn" Clicked="gsubjectbtn_Clicked"></Button>
-                <Label Text="Monday"></Label>
-                <ListView x:Name="list" HasUnevenRows="True" SeparatorVisibility="Default">
+                <Button Text="Generate" TextColor="White" x:Name="gclassroombtn" BackgroundColor="DarkGreen"  Clicked="gclassroombtn_Clicked"></Button>
+                <Label Text="{Binding TeacherName}" FontSize="20" FontAttributes="Bold" IsVisible="false" x:Name="txtteacher"/>
+                <Label Text="{Binding ClassroomName}" FontSize="20" FontAttributes="Bold" IsVisible="false" x:Name="txtclass"/>
+                <ListView x:Name="list" HasUnevenRows="True" SeparatorVisibility="Default" IsVisible="False">
                     <ListView.Header>
                         <Grid>
                             <Label Grid.Column="0" Grid.Row="0" Text="Subject Code" FontAttributes="Bold" Padding="10,0,0,0"/>
@@ -23,8 +25,9 @@
                             <Label Grid.Column="2" Grid.Row="0" Text="Faculty No." FontAttributes="Bold"/>
                             <Label Grid.Column="3" Grid.Row="0" Text="Teacher's Name" FontAttributes="Bold"/>
                             <Label Grid.Column="4" Grid.Row="0" Text="Course Type" FontAttributes="Bold"/>
-                            <Label Grid.Column="5" Grid.Row="0" Text="Lecture Day" FontAttributes="Bold"/>
-                            <Label Grid.Column="6" Grid.Row="0" Text="Lecture Time" FontAttributes="Bold"/>
+                            <Label Grid.Column="5" Grid.Row="0" Text="Classroom" FontAttributes="Bold"/>
+                            <Label Grid.Column="6" Grid.Row="0" Text="Lecture Day" FontAttributes="Bold"/>
+                            <Label Grid.Column="7" Grid.Row="0" Text="Lecture Time" FontAttributes="Bold"/>
                         </Grid>
                     </ListView.Header>
                     <ListView.ItemTemplate>
@@ -37,8 +40,9 @@
                                         <Label Grid.Column="2" x:Name="FacultyNo" Text="{Binding TeacherID}"/>
                                         <Label Grid.Column="3" x:Name="TeacherName" Text="{Binding TeacherName}"/>
                                         <Label Grid.Column="4" x:Name="CourseType" Text="{Binding ACourseType}"/>
-                                        <Label Grid.Column="5" x:Name="LectureDay" Text="{Binding LectureDay}"/>
-                                        <Label Grid.Column="6" x:Name="LectureTime" Text="{Binding LectureTime}"/>
+                                        <Label Grid.Column="5" x:Name="Classroom" Text="{Binding ClassRoomName}"/>
+                                        <Label Grid.Column="6" x:Name="LectureDay" Text="{Binding LectureDay}"/>
+                                        <Label Grid.Column="7" x:Name="LectureTime" Text="{Binding LectureTime}"/>
                                     </Grid>
                                 </StackLayout>
                             </ViewCell>

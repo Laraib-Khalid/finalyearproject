@@ -12,9 +12,10 @@ namespace finalyearproject.AdminDetails
    public class Teacher
     {
         [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+        public int ID { get; set; }
         [Required]
         public string Password { get; set; }
+        [Required]
         public string Name { get; set; }
         [Required]
         public string FacultyNo { get; set; }
@@ -26,6 +27,6 @@ namespace finalyearproject.AdminDetails
         public string Designation { get; set; }
         [Required,EmailAddress]
         public string Email { get; set; }
-    
+        public string Subject { get; set; }
     }
 }

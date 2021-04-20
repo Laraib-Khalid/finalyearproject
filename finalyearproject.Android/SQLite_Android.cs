@@ -22,6 +22,7 @@ namespace finalyearproject.Droid
             conn = new SQLiteConnection(path);
             conn.CreateTable<Classrooms>();
             conn.CreateTable<Teacher>();
+            conn.CreateTable<DayTime>();
             conn.CreateTable<Subjects>();
             conn.CreateTable<Allotment>();
             conn.CreateTable<TeacherAndSubjectTable>();
@@ -72,7 +73,7 @@ namespace finalyearproject.Droid
             bool res = false;
             try
             {
-                string sql = $"Update Classrooms set Name='{classroom.Name}' where Id={classroom.Id}";
+                string sql = $"Update Classrooms set Name='{classroom.Name}', Department='{classroom.Department}' where Id={classroom.Id}";
                 conn.Execute(sql);
                 res = true;
             }
@@ -111,7 +112,7 @@ namespace finalyearproject.Droid
             try
             {
                 string sql = $"Update Subjects set Name='{sub.Name}',Code='{sub.Code}',CourseType='{sub.CourseType}'," +
-                    $"Semester='{sub.Semester}',Department='{sub.Department}' where Id={sub.Id}";
+                    $"ClassRoom='{sub.ClassRoom}',Department='{sub.Department}' where Id={sub.Id}";
                 conn.Execute(sql);
                 res = true;
             }
@@ -157,7 +158,7 @@ namespace finalyearproject.Droid
             {
                 string sql = $"Update Teacher set Name='{te.Name}',FacultyNo='{te.FacultyNo}'," +
                     $"Alias='{te.Alias}',ContactNo='{te.ContactNo}',Designation='{te.Designation}'," +
-                    $"Email='{te.Email}',Password='{te.Password}' where Id={te.Id}";
+                    $"Email='{te.Email}',Password='{te.Password}' where Id={te.ID}";
                 conn.Execute(sql);
                 res = true;
             }
@@ -208,6 +209,39 @@ namespace finalyearproject.Droid
                 res = false;
             }
             return res;
+        }
+
+        public void DeleteAllotment(int Id)
+        {
+            string sql = $"Delete  from Allotment where ID='Id'";
+            conn.Execute(sql);
+        }
+
+        public bool AddDayTime(DayTime dayTime)
+        {
+            bool res = false;
+            try
+            {
+                conn.Insert(dayTime);
+                res = true;
+            }
+            catch
+            {
+                res = false;
+            }
+            return res;
+        }
+        public void DeleteDayTime(int Id)
+        {
+            string sql = $"Delete  from DayTime";
+            conn.Execute(sql);
+        }
+
+        public List<DayTime> GetDayTime()
+        {
+            string sql = $"Select * from DayTime";
+            List<DayTime> te = conn.Query<DayTime>(sql);
+            return te;
         }
     }
 }

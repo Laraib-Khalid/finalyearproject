@@ -4,12 +4,41 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="finalyearproject.StaffDetails.Timetable">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+             x:Class="finalyearproject.StaffDetails.Timetable" Title="Timetable">
+    <ScrollView>
+        <Grid>
+            <StackLayout Padding="10">
+                <!--<Picker x:Name="TeacherPicker" ItemDisplayBinding="{Binding Name}"  Title="Select Teacher">
+                </Picker>-->
+                <ListView x:Name="list" HasUnevenRows="True" SeparatorVisibility="Default">
+                    <ListView.Header>
+                        <Grid>
+                            <Label Grid.Column="0" Grid.Row="0" Text="Subject Code" FontAttributes="Bold" Padding="10,0,0,0"/>
+                            <Label Grid.Column="1" Grid.Row="0" Text="Subject Title" FontAttributes="Bold"/>
+                            <Label Grid.Column="2" Grid.Row="0" Text="Course Type" FontAttributes="Bold"/>
+                            <Label Grid.Column="3" Grid.Row="0" Text="Classroom" FontAttributes="Bold"/>
+                            <Label Grid.Column="4" Grid.Row="0" Text="Lecture Day" FontAttributes="Bold"/>
+                            <Label Grid.Column="5" Grid.Row="0" Text="Lecture Time" FontAttributes="Bold"/>
+                        </Grid>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Spacing="2">
+                                    <Grid>
+                                        <Label Grid.Column="0" x:Name ="SubjectCode" Text="{Binding SubjectID}" Padding="10,0,0,0"/>
+                                        <Label Grid.Column="1" x:Name="SubjectTitle" Text="{Binding SubjectTitle}"/>
+                                        <Label Grid.Column="2" x:Name="CourseType" Text="{Binding ACourseType}"/>
+                                        <Label Grid.Column="3" x:Name="Classroom" Text="{Binding ClassRoomName}"/>
+                                        <Label Grid.Column="4" x:Name="LectureDay" Text="{Binding LectureDay}"/>
+                                        <Label Grid.Column="5" x:Name="LectureTime" Text="{Binding LectureTime}"/>
+                                    </Grid>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
 </ContentPage>

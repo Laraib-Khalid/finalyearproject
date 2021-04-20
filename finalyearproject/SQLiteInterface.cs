@@ -19,6 +19,9 @@ namespace finalyearproject
         bool UpdateSubject(Subjects sub);
         void DeleteSubject(int Id);
         bool AddTeacher(Teacher te);
+        bool AddDayTime(DayTime dayTime);
+        List<DayTime> GetDayTime();
+        void DeleteDayTime(int Id);
         List<Teacher> GetTeacher();
         List<Allotment> GetAllotments();
         List<Allotment> GetClassroomAllotments(int Cid);
@@ -28,5 +31,6 @@ namespace finalyearproject
         void DeleteTeacher(int Id);
         void Longtime(string message);
         void Shorttime(string message);
+        void DeleteAllotment(int Id);
     }
 }

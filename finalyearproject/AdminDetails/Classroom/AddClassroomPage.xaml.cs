@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,18 +14,22 @@ namespace finalyearproject.AdminDetails.Classroom
     public partial class AddClassroomPage : ContentPage
     {
         Classrooms classroomDetails;
+        public SQLiteConnection conn;
         public AddClassroomPage(Classrooms details)
         {
             InitializeComponent();
+            conn = DependencyService.Get<SQLiteInterface>().GetConnectionwithCreateDatabase();
             if (details != null)
             {
                 classroomDetails = details;
                 PopulateDetails(classroomDetails);
             }
         }
+
         private void PopulateDetails(Classrooms details)
         {
             Name.Text = details.Name;
+            Department.Text = details.Department;
             addbtn.Text = "Update Classroom";
             this.Title = "Edit Classroom";
         }
@@ -32,7 +37,18 @@ namespace finalyearproject.AdminDetails.Classroom
         {
             if (string.IsNullOrEmpty(Name.Text))
             {
+                if(string.IsNullOrEmpty(Department.Text))
+                {
+                    ClassroomError.IsVisible = true;
+                    DepartmentError.IsVisible = true;
+                }
                 ClassroomError.IsVisible = true;
+                DepartmentError.IsVisible = false;
+            }
+            else if (string.IsNullOrEmpty(Department.Text))
+            {
+                ClassroomError.IsVisible = false;
+                DepartmentError.IsVisible = true;
             }
             else
             { 
@@ -40,21 +56,31 @@ namespace finalyearproject.AdminDetails.Classroom
                 {
                     Classrooms classroom = new Classrooms();
                     classroom.Name = Name.Text;
-                    bool res = DependencyService.Get<SQLiteInterface>().AddClassroom(classroom);
-                    if (res)
+                    classroom.Department = Department.Text;
+                    var dup = conn.Query<Classrooms>("Select * from Classrooms where Name = '" + Name.Text + "' and Department ='" + Department.Text + "'");
+                    if (dup.Count == 0)
                     {
-                        var message = "Data saved Successfully.";
-                        DependencyService.Get<SQLiteInterface>().Shorttime(message);
-                        Navigation.PopAsync();
+                        bool res = DependencyService.Get<SQLiteInterface>().AddClassroom(classroom);
+                        if (res)
+                        {
+                            var message = "Data saved Successfully.";
+                            DependencyService.Get<SQLiteInterface>().Shorttime(message);
+                            Navigation.PopAsync();
+                        }
+                        else
+                        {
+                            DisplayAlert("Message", "Data Failed To Save", "OK");
+                        }
                     }
                     else
                     {
-                        DisplayAlert("Message", "Data Failed To Save", "OK");
+                        DisplayAlert("Message", "Data already exist", "OK");
                     }
                 }
                  else
                 {
                     classroomDetails.Name = Name.Text;
+                    classroomDetails.Department = Department.Text;
                     bool res = DependencyService.Get<SQLiteInterface>().UpdateClassroom(classroomDetails);
                     if (res)
                     {

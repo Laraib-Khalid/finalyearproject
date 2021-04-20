@@ -6,19 +6,25 @@
              mc:Ignorable="d"
              x:Class="finalyearproject.StaffDetails.SelectSubject" Title="Select Subject">
     <ContentPage.Content>
+        <ScrollView>
         <StackLayout Padding="10">
-            <Label Text="Select Name" FontSize="20" FontAttributes="Bold"/>
-            <Picker x:Name="NamePicker" ItemDisplayBinding="{Binding Name}" Title="Select Name">
+            <Label Text="Teacher Name" FontSize="20" FontAttributes="Bold"/>
+            <Entry  FontSize="20" x:Name="txtStaffName" IsReadOnly="True"/>
+            <Label Text="Select Department" FontSize="20" FontAttributes="Bold"/>
+            <Picker x:Name="DepartmentPicker" FontSize="20" ItemDisplayBinding="{Binding Department}" SelectedIndexChanged="DepartmentPicker_SelectedIndexChanged" Title="Select Department">
             </Picker>
-            <Label Text="Select Course" FontSize="20" FontAttributes="Bold"/>
-            <Picker x:Name="SubjectPicker" ItemDisplayBinding="{Binding Name}" Title="Select Subject">
-            </Picker>
-            <Label Text="Subject Experience" FontSize="20" FontAttributes="Bold"/>
-            <Entry x:Name="txtExperience" Keyboard="Numeric"/>
-            <Button Text="Selected" FontSize="20" FontAttributes="Bold" 
+            <Label Text="Select Subject" FontSize="20" FontAttributes="Bold"/>
+                <Picker x:Name="SubjectPicker" FontSize="20" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="SubjectPicker_SelectedIndexChanged" Title="Select Subject">
+                </Picker>
+            <Label Text="Select Classroom" FontSize="20" FontAttributes="Bold"/>
+                <Picker x:Name="ClassPicker" FontSize="20" ItemDisplayBinding="{Binding ClassRoom}" Title="Select Class">
+                </Picker>
+                <Label Text="Subject Experience" FontSize="20" FontAttributes="Bold"/>
+            <Entry x:Name="txtExperience" Placeholder="Enter Subject Experience" MaxLength="2" Keyboard="Numeric"/>
+            <Button Text="Done" FontSize="20" FontAttributes="Bold" 
                 BackgroundColor="DarkGreen" TextColor="White"
                 x:Name="addbtn" HorizontalOptions="FillAndExpand" Clicked="addbtn_Clicked"/>
-            <ListView x:Name="listView" IsEnabled="False" HasUnevenRows="True" HorizontalScrollBarVisibility="Default">
+            <ListView x:Name="listView" HasUnevenRows="True">
                 <ListView.Header>
                         <StackLayout>
                     <Grid>
@@ -29,10 +35,13 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Grid.Row="0" Text="Teacher Name" FontAttributes="Bold"/>
-                        <Label Grid.Column="1" Grid.Row="0" Text="SubjectName" FontAttributes="Bold"/>
-                        <Label Grid.Column="2" Grid.Row="0" Text="Experience" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Grid.Row="0" Text="Department" FontAttributes="Bold"/>
+                                <Label Grid.Column="2" Grid.Row="0" Text="Subject Name" FontAttributes="Bold"/>
+                                <Label Grid.Column="3" Grid.Row="0" Text="Class Name" FontAttributes="Bold"/>
+                                <Label Grid.Column="4" Grid.Row="0" Text="Experience" FontAttributes="Bold"/>
                     </Grid>
                         </StackLayout>
                 </ListView.Header>
@@ -48,10 +57,13 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                  <Label Text="{Binding TeacherName}"  HorizontalTextAlignment="Start" Grid.Column="0"/>
-                                <Label Text="{Binding SubjectName}" HorizontalTextAlignment="Start" Grid.Column="1" />
-                                <Label Text="{Binding Experience}" HorizontalTextAlignment="Center"  Grid.Column="2" />
+                                 <Label Text="{Binding Department}" HorizontalTextAlignment="Start" Grid.Column="1" />
+                                        <Label Text="{Binding SubjectName}" HorizontalTextAlignment="Start" Grid.Column="2" />
+                                        <Label Text="{Binding ClassRoom}" HorizontalTextAlignment="Start" Grid.Column="3" />
+                                        <Label Text="{Binding Experience}" HorizontalTextAlignment="Center"  Grid.Column="4" />
                             </Grid>
                                 </StackLayout>
                         </ViewCell>
@@ -59,5 +71,6 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

@@ -37,7 +37,8 @@
                 <Label Text="Password" FontSize="20" FontAttributes="Bold"/>
                 <Entry x:Name="Password" Text="{Binding Password}"  IsPassword="True" IsVisible="True"/>
                 <Label x:Name="PasswordError" Text="The Password field is required." IsVisible="False" TextColor="Red"/>
-                
+                <Label x:Name="Subject" FontSize="20" FontAttributes="Bold" />
+                <Entry  Text="{Binding Subject}" Placeholder="Subject"/>
                 <Button Text="Add Teacher" FontSize="20" FontAttributes="Bold" 
                 BackgroundColor="DarkGreen" TextColor="White"
                 x:Name="addbtn" HorizontalOptions="FillAndExpand" Clicked="AddTeacher"/>

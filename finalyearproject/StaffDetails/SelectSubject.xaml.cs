@@ -2,12 +2,6 @@
 using finalyearproject.AdminDetails.Allotment;
 using SQLite;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,50 +11,90 @@ namespace finalyearproject.StaffDetails
     public partial class SelectSubject : ContentPage
     {
         public SQLiteConnection conn;
+        public static Teacher teacher;
         public SelectSubject()
         {
             InitializeComponent();
+
+            //  this.teacher = teacher;
             conn = DependencyService.Get<SQLiteInterface>().GetConnectionwithCreateDatabase();
-            setSubject();
-            setName();
+            txtStaffName.Text = teacher.Name.ToString();
+            setDepartment();
             Display();
         }
 
-        private void setName()
+        private void setDepartment()
         {
-            var getName = conn.Query<Teacher>("SELECT Id,Name,Experience FROM Teacher");
-            NamePicker.ItemsSource = getName;
+            var getDepartment = conn.Query<Subjects>("SELECT DISTINCT Department from Subjects");
+            DepartmentPicker.ItemsSource = getDepartment;
         }
-        private void setSubject()
+        private void DepartmentPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var getSubject = conn.Query<Subjects>("SELECT Id,Name FROM Subjects");
+            var department = (Subjects)DepartmentPicker.SelectedItem;
+            var getSubject = conn.Query<Subjects>("SELECT Id,Name FROM Subjects where Department = '" + department.Department + "'");
             SubjectPicker.ItemsSource = getSubject;
+        }
+        private void SubjectPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var subjects = (Subjects)SubjectPicker.SelectedItem;
+            var getClass = conn.Query<Subjects>("SELECT ClassRoom from Subjects where Id = '"+subjects.Id+"'");
+            ClassPicker.ItemsSource = getClass;
         }
         private void addbtn_Clicked(object sender, EventArgs e)
         {
             TeacherAndSubjectTable tesub = new TeacherAndSubjectTable();
             var SelectedSubject = (Subjects)SubjectPicker.SelectedItem;
-            tesub.SubjectID = SelectedSubject.Id;
-            var SelectedName = (Teacher)NamePicker.SelectedItem;
-            tesub.TeacherID = SelectedName.Id;
-            tesub.Experience = Convert.ToInt32(txtExperience.Text);
-            bool res = DependencyService.Get<SQLiteInterface>().TeacherPreferences(tesub);
-            if (res)
+            var SelectedDepartment = (Subjects)DepartmentPicker.SelectedItem;
+            var SelectedClass = (Subjects)ClassPicker.SelectedItem;
+            if (SelectedSubject == null || SelectedClass == null || SelectedDepartment == null ||txtExperience == null)
             {
-                var message = "Data saved Successfully.";
-                DependencyService.Get<SQLiteInterface>().Shorttime(message);
-                Navigation.PopAsync();
+                DisplayAlert("Message", "Please fill all data", "OK");
             }
             else
             {
-                DisplayAlert("Message", "Data Failed To Save", "OK");
+
+                tesub.SubjectID = SelectedSubject.Id;
+                tesub.TeacherID = teacher.ID;
+                tesub.Department = SelectedDepartment.Department;
+                tesub.ClassRoom = SelectedClass.ClassRoom;
+                tesub.Experience = Convert.ToInt32(txtExperience.Text);
+                var chkDuplication = conn.Query<TeacherAndSubjectTable>("SELECT * FROM TeacherAndSubjectTable where TeacherID='" + teacher.ID + "' and SubjectID='" + SelectedSubject.Id + "' and ClassRoom = '"+SelectedClass.ClassRoom+"'");
+                if (chkDuplication.Count == 0)
+                {
+                    bool res = DependencyService.Get<SQLiteInterface>().TeacherPreferences(tesub);
+                    if (res)
+                    {
+                        var message = "Data saved Successfully.";
+                        DependencyService.Get<SQLiteInterface>().Shorttime(message);
+                        Clear();
+                        Display();
+                    }
+                    else
+                    {
+                        DisplayAlert("Message", "Data Failed To Save", "OK");
+                    }
+                }
+                else
+                {
+                    DisplayAlert("Warning", "Data already exist", "", "Yes");
+                }
             }
+
         }
 
         private void Display()
         {
-            var Display = conn.Query<TeacherAndSubjectTable>("SELECT t.Name as TeacherName,s.Name as SubjectName,tt.Experience as Experience from TeacherandSubjectTable tt inner join Teacher t on tt.TeacherID=t.Id inner join Subjects s on tt.SubjectID=s.Id");
+            var Display = conn.Query<TeacherAndSubjectTable>("SELECT t.Name as TeacherName,s.Name as SubjectName,s.ClassRoom as ClassRoom,s.Department as Department ,tt.Experience as Experience from TeacherandSubjectTable tt inner join Teacher t on tt.TeacherID=t.Id inner join Subjects s on tt.SubjectID=s.Id where t.Id='" + teacher.ID + "'");
             listView.ItemsSource = Display;
         }
+        void Clear()
+        {
+            SubjectPicker.SelectedItem = "";
+            DepartmentPicker.SelectedItem = "";
+            ClassPicker.SelectedItem = "";
+            txtExperience.Text = "";
+        }
+
     }
 }
+

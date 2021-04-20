@@ -20,7 +20,6 @@ namespace finalyearproject
             {
 
                 Navigation.PushAsync(new AdminMainPageCS(usr.Text));
-                Clear();
             }
             else if (string.IsNullOrEmpty(usr.Text))
             {
@@ -60,11 +59,6 @@ namespace finalyearproject
                 login_PasswordError.IsVisible = false;
                 login_UserNameError.IsVisible = false;
             }
-        }
-        void Clear()
-        {
-            usr.Text = "";
-            password.Text = "";
         }
     }
 }

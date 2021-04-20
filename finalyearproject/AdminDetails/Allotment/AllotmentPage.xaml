@@ -8,36 +8,17 @@
     <ScrollView>
         <Grid>
             <StackLayout Padding="10">
+                <Picker x:Name="DepartmentPicker" ItemDisplayBinding="{Binding Department}" SelectedIndexChanged="DepartmentPicker_SelectedIndexChanged" Title="Select Department">
+                </Picker>
+                <Picker x:Name="ClassPicker" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="classPicker_SelectedIndexChanged" Title="Select Classroom">
+                </Picker>
                 <Picker x:Name="SubjectPicker" ItemDisplayBinding="{Binding Name}"  SelectedIndexChanged="SubjectPicker_SelectedIndexChanged" Title="Select Subject">
                 </Picker>
-                <Entry x:Name="txtTeacherName" FontSize="20"></Entry>
-                <Entry x:Name="txtTeacherID" ></Entry>
-                <Picker x:Name="CoursePicker" ItemDisplayBinding="{Binding CourseType}" Title="Select Course">
+                <Entry x:Name="txtTeacherName" IsReadOnly="True" Placeholder="Teacher Name" ></Entry>
+                <Entry x:Name="txtTeacherID" IsReadOnly="True" Placeholder="Teacher ID" IsVisible="False"></Entry>
+                <Picker x:Name="dayPicker" ItemDisplayBinding="{Binding Day}" SelectedIndexChanged="dayPicker_SelectedIndexChanged" Title="Select Day">
                 </Picker>
-                <Picker x:Name="classPicker" ItemDisplayBinding="{Binding Name}" Title="Select ClassRooms">
-                </Picker>
-                <Picker x:Name="dayPicker" Title="Select Day">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Monday</x:String>
-                            <x:String>Tuesday</x:String>
-                            <x:String>Wednesday</x:String>
-                            <x:String>Thursday</x:String>
-                            <x:String>Friday</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
-                <Picker x:Name="timePicker" Title="Select Class Time">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>8 AM TO 9 AM</x:String>
-                            <x:String>9 AM TO 10 AM</x:String>
-                            <x:String>10 AM TO 11 AM</x:String>
-                            <x:String>11 AM TO 12 PM</x:String>
-                            <x:String>12 2PM TO 1 PM</x:String>
-                            <x:String>1 PM TO 2 PM</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
+                <Picker x:Name="timePicker" ItemDisplayBinding="{Binding Time}" Title="Select Time">
                 </Picker>
                 <StackLayout Padding="20,10,20,10">
                     <Button  Text="Allot" BackgroundColor="DarkGreen"  FontAttributes="Bold"  TextColor="White" Clicked="Allot_Clicked"/>
@@ -45,23 +26,28 @@
                 <ListView x:Name="list" HasUnevenRows="True" SeparatorVisibility="Default">
                     <ListView.Header>
                         <Grid>
-                            <Label Grid.Column="0" Grid.Row="0" Text="Subject Code" FontAttributes="Bold" Padding="10,0,0,0"/>
-                            <Label Grid.Column="1" Grid.Row="0" Text="Subject Title" FontAttributes="Bold"/>
-                            <Label Grid.Column="2" Grid.Row="0" Text="Faculty No." FontAttributes="Bold"/>
-                            <Label Grid.Column="3" Grid.Row="0" Text="Teacher's Name" FontAttributes="Bold"/>
-                            <Label Grid.Column="4" Grid.Row="0" Text="Course Type" FontAttributes="Bold"/>
+                            <Label Grid.Column="0" Grid.Row="0" Text="Subject Title" FontAttributes="Bold" Padding="10,0,0,0"/>
+                            <Label Grid.Column="1" Grid.Row="0" Text="Teacher's Name" FontAttributes="Bold"/>
+                            <Label Grid.Column="2" Grid.Row="0" Text="Subject Code" FontAttributes="Bold"/>
+                            <Label Grid.Column="3" Grid.Row="0" Text="Course Type" FontAttributes="Bold"/>
+                            <Label Grid.Column="4" Grid.Row="0" Text="Day" FontAttributes="Bold"/>
+                            <Label Grid.Column="5" Grid.Row="0" Text="Time" FontAttributes="Bold"/>
                         </Grid>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
+                            <ViewCell Tapped="ViewCell_Tapped">
+                                <ViewCell.ContextActions>
+                                    <MenuItem Text="Delete" Clicked="MenuItem_Clicked" IsDestructive="True" CommandParameter="{Binding .}"/>
+                                </ViewCell.ContextActions>
                                 <StackLayout Spacing="2">
                                     <Grid>
-                                        <Label Grid.Column="0" x:Name ="SubjectCode" Text="{Binding SubjectID}" Padding="10,0,0,0"/>
-                                        <Label Grid.Column="1" x:Name="SubjectTitle" Text="{Binding SubjectTitle}"/>
-                                        <Label Grid.Column="2" x:Name="FacultyNo" Text="{Binding TeacherID}"/>
-                                        <Label Grid.Column="3" x:Name="TeacherName" Text="{Binding TeacherName}"/>
-                                        <Label Grid.Column="4" x:Name="CourseType" Text="{Binding ACourseType}"/>
+                                        <Label Grid.Column="0" x:Name="SubjectTitle" Text="{Binding SubjectTitle}" Padding="10,0,0,0"/>
+                                        <Label Grid.Column="1" x:Name="TeacherName" Text="{Binding TeacherName}"/>
+                                        <Label Grid.Column="2" x:Name ="SubjectCode" Text="{Binding ClassRoomName}"/>
+                                        <Label Grid.Column="3" x:Name="CourseType" Text="{Binding ACourseType}"/>
+                                        <Label Grid.Column="4" x:Name="Day" Text="{Binding LectureDay}"/>
+                                        <Label Grid.Column="5" x:Name="Time" Text="{Binding LectureTime}"/>
                                     </Grid>
                                 </StackLayout>
                             </ViewCell>

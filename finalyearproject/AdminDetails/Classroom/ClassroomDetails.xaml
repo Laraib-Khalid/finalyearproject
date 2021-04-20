@@ -14,8 +14,9 @@
             <ListView x:Name="ClassroomList" HasUnevenRows="True" ItemTapped="UpdateClassroom" SeparatorVisibility="None">
                 <ListView.Header>
                     <Grid>
-                        <Label Grid.Column="0" Grid.Row="0" Text="ID" FontAttributes="Bold" Padding="15,0,0,0"/>
-                            <Label Grid.Column="1" Grid.Row="0" Text="Name" FontAttributes="Bold"/>
+                        <Label Grid.Column="0" Grid.Row="0" Text="ID" FontAttributes="Bold" Padding="10,0,0,0"/>
+                        <Label Grid.Column="1" Grid.Row="0" Text="Department" FontAttributes="Bold"/>
+                        <Label Grid.Column="2" Grid.Row="0" Text="Name" FontAttributes="Bold"/>
                     </Grid>
                 </ListView.Header>
                 <ListView.ItemTemplate>
@@ -26,8 +27,9 @@
                                 </ViewCell.ContextActions>
                                 <StackLayout>
                                     <Grid>
-                                        <Label  Grid.Column="0" Grid.Row="1" Text="{Binding Id}" Padding="15,0,0,0"/>
-                                        <Label  Grid.Column="1" Grid.Row="1" Text="{Binding Name}"/>
+                                        <Label  Grid.Column="0" Grid.Row="1" Text="{Binding Id}" Padding="10,0,0,0"/>
+                                        <Label  Grid.Column="1" Grid.Row="1" Text="{Binding Department}"/>
+                                        <Label  Grid.Column="2" Grid.Row="1" Text="{Binding Name}"/>
                                     </Grid>
                                 </StackLayout>
                             </ViewCell>

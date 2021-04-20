@@ -47,7 +47,7 @@ namespace finalyearproject.AdminDetails
             {
                 var menu = sender as MenuItem;
                 Teacher details = menu.CommandParameter as Teacher;
-                DependencyService.Get<SQLiteInterface>().DeleteTeacher(details.Id);
+                DependencyService.Get<SQLiteInterface>().DeleteTeacher(details.ID);
                 PopulateTeacherList();
             }
         }

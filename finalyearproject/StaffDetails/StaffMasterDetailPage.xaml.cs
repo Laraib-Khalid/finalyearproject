@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using finalyearproject.AdminDetails;
+using System;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,12 +10,16 @@ namespace finalyearproject.StaffDetails
     public partial class StaffMasterDetailPage : MasterDetailPage
     {
         StaffMasterDetailPageMaster masterPage;
-        public StaffMasterDetailPage(string usr)
+        public Teacher teacher;
+        public StaffMasterDetailPage(Teacher teacher)
         {
             NavigationPage.SetHasNavigationBar(this, false);
+            this.teacher = teacher;
             MasterBehavior = MasterBehavior.Popover;
             masterPage = new StaffMasterDetailPageMaster();
             Master = masterPage;
+            SelectSubject.teacher = teacher;
+            Timetable.teacherId = teacher.ID;
             Detail = new NavigationPage(new SelectSubject())
             {
                 BarBackgroundColor = Color.DarkGreen,
@@ -30,6 +31,7 @@ namespace finalyearproject.StaffDetails
                 var item = e.SelectedItem as StaffMasterDetailPageMasterMenuItem;
                 if (item != null)
                 {
+                   
                     Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType))
                     { BarBackgroundColor = Color.DarkGreen, BarTextColor = Color.White };
                     masterPage.listView.SelectedItem = null;
@@ -37,5 +39,5 @@ namespace finalyearproject.StaffDetails
                 }
             }
         }
-}
+    }
 }

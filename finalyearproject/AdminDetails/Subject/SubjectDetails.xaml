@@ -14,11 +14,11 @@
                 <ListView x:Name="SubjectList" HasUnevenRows="True" ItemTapped="UpdateSubject" SeparatorVisibility="None">
                 <ListView.Header>
                     <Grid>
-                        <Label Grid.Column="0" Grid.Row="0" Text="Name" FontAttributes="Bold" Padding="5,0,0,0"/>
+                        <Label Grid.Column="0" Grid.Row="0" Text="Name" FontAttributes="Bold" Padding="10,0,0,0"/>
                         <Label Grid.Column="1" Grid.Row="0" Text="Code" FontAttributes="Bold"/>
-                        <Label Grid.Column="2" Grid.Row="0" Text="Course Type" FontAttributes="Bold"/>
-                        <Label Grid.Column="3" Grid.Row="0" Text="Semester" FontAttributes="Bold"/>
-                        <Label Grid.Column="4" Grid.Row="0" Text="Department" FontAttributes="Bold"/>
+                            <Label Grid.Column="2" Grid.Row="0" Text="Course Type" FontAttributes="Bold"/>
+                            <Label Grid.Column="3" Grid.Row="0" Text="Department" FontAttributes="Bold"/>
+                            <Label Grid.Column="4" Grid.Row="0" Text="Classroom" FontAttributes="Bold"/>
                     </Grid>
                 </ListView.Header>
                     <ListView.ItemTemplate>
@@ -29,11 +29,11 @@
                                 </ViewCell.ContextActions>
                                 <StackLayout>
                                 <Grid>
-                                        <Label Grid.Column="0" Text="{Binding Name}" Padding="5,0,0,0"/>
+                                        <Label Grid.Column="0" Text="{Binding Name}" Padding="10,0,0,0"/>
                                         <Label Grid.Column="1" Text="{Binding Code}"/>
                                         <Label Grid.Column="2" Text="{Binding CourseType}"/>
-                                        <Label Grid.Column="3" Text="{Binding Semester}"/>
-                                        <Label Grid.Column="4" Text="{Binding Department}"/>
+                                        <Label Grid.Column="3" Text="{Binding Department}" HorizontalTextAlignment="Center"/>
+                                        <Label Grid.Column="4" Text="{Binding ClassRoom}" HorizontalTextAlignment="Center"/>
                                 </Grid>
                                 </StackLayout>
                             </ViewCell>

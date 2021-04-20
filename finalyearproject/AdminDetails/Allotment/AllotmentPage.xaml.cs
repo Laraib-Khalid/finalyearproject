@@ -10,6 +10,7 @@ namespace finalyearproject.AdminDetails.Allotment
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AllotmentPage : ContentPage
     {
+        private ViewCell lastCell;
         public SQLiteConnection conn;
         public Subjects sub;
         public Teacher te;
@@ -22,30 +23,33 @@ namespace finalyearproject.AdminDetails.Allotment
         private void loadAllPickers()
         {
             getAllotmentDAata();
-            setSubject();
-            // setTeacher();
-            setCourse();
-            setClassRooms();
+            setDay();
+            setDepartment();
         }
-        private void setSubject()
+
+        private void setDepartment()
         {
-            var getSubject = conn.Query<Subjects>("SELECT Id,Name FROM Subjects");
-            SubjectPicker.ItemsSource = getSubject;
+            var getDepartment = conn.Query<Classrooms>("SELECT DISTINCT Department FROM Classrooms");
+            DepartmentPicker.ItemsSource = getDepartment;
         }
-        //private void setTeacher()
-        //{
-        //    var getTeacher = conn.Query<Teacher>("SELECT Id,Name FROM Teacher");
-        //    TeacherPicker.ItemsSource = getTeacher;
-        //}
-        private void setCourse()
+
+        private void DepartmentPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var getCourse = conn.Query<Subjects>("SELECT CourseType FROM Subjects");
-            CoursePicker.ItemsSource = getCourse;
+            var department = (Classrooms)DepartmentPicker.SelectedItem;
+            var getClass = conn.Query<Classrooms>("SELECT DISTINCT Id,Name FROM Classrooms where Department = '" + department.Department + "'");
+            ClassPicker.ItemsSource = getClass;
         }
-        public void setClassRooms()
+        private void setDay()
         {
-            var getClassrooms = conn.Query<Classrooms>("SELECT Id,Name FROM Classrooms");
-            classPicker.ItemsSource = getClassrooms;
+           var getDay = conn.Query<DayTime>("SELECT DISTINCT Day FROM DayTime");
+            dayPicker.ItemsSource = getDay;
+        }
+
+        private void dayPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var day = (DayTime)dayPicker.SelectedItem;
+            var getTime = conn.Query<DayTime>("SELECT Time FROM DayTime  where Day = '" + day.Day + "'");
+            timePicker.ItemsSource = getTime;
         }
         public bool saveAllotment(Allotment allotment)
         {
@@ -56,7 +60,7 @@ namespace finalyearproject.AdminDetails.Allotment
             }
             catch (Exception ex)
             {
-                DisplayAlert(ex.Message.ToString(), "EXCEPTION", "", "Yes");
+                DisplayAlert("EXCEPTION", ex.Message.ToString(),  "", "Yes");
                 return false;
             }
         }
@@ -78,59 +82,115 @@ namespace finalyearproject.AdminDetails.Allotment
         }
         private void Allot_Clicked(object sender, EventArgs e)
         {
-            //    if (SubjectPicker.SelectedIndex != -1)
-            //    {
-            //        //var SelectedItem = (string)SubjectPicker.SelectedItem;
-            //        var SelectedItem = SubjectPicker.SelectedItem as Subjects;
-            //        string qry = "SELECT Code,Name,CourseType FROM Subjects s where s.Name="+SelectedItem.Name.ToString()+"";
-            //        var Subject = conn.Query<Subjects>(qry);
-            //        list.ItemsSource = Subject;
-            //    }
-            //    else
-            //    {
-            //       // Display();
-            //    }
-            // var SelectedTeacher = (Teacher)TeacherPicker.SelectedItem;
-            var SelectedClassRoom = (Classrooms)classPicker.SelectedItem;
-            var SelectedSubject = (Subjects)SubjectPicker.SelectedItem;
-            var SelectedType = (Subjects)CoursePicker.SelectedItem;
-            var SelectedTime = timePicker.SelectedItem.ToString();
-            var Selectedday = dayPicker.SelectedItem.ToString();
-            Allotment allotment = new Allotment
-            {
-                TeacherID = tID,
-                SubjectTitle = SelectedSubject.Name,
-                TeacherName = tName,
-                ClassRoomID = SelectedClassRoom.Id,
-                SubjectID = SelectedSubject.Id,
-                ACourseType = SelectedType.CourseType,
-                LectureTime = SelectedTime,
-                LectureDay = Selectedday
-            };
-
-            if (saveAllotment(allotment))
-            {
-                DisplayAlert("Saved Successfully", "Message", "", "Yes");
-            }
-            else
-            {
-                DisplayAlert("Error Encountered", "Error", "", "Yes");
+                var SelectedClassRoom = (Classrooms)ClassPicker.SelectedItem;
+                var SelectedSubject = (Subjects)SubjectPicker.SelectedItem;
+                var SelectedDepartment = (Classrooms)DepartmentPicker.SelectedItem;
+                var SelectedTime = (DayTime)timePicker.SelectedItem;
+                var Selectedday = (DayTime)dayPicker.SelectedItem;
+                if (SelectedClassRoom==null||Selectedday==null||SelectedDepartment==null||SelectedSubject==null||SelectedTime==null)
+                {
+                    DisplayAlert("Message","Please Fill all data","OK");
+                }
+                else
+                {
+                Allotment allotment = new Allotment
+                {
+                    TeacherID = tID,
+                    SubjectTitle = SelectedSubject.Name,
+                    TeacherName = tName,
+                    ClassRoomID = SelectedClassRoom.Id,
+                    ClassRoomName = SelectedClassRoom.Name,
+                    SubjectID = SelectedSubject.Id,
+                    ACourseType = SelectedSubject.CourseType,
+                    LectureTime = SelectedTime.Time,
+                    LectureDay = Selectedday.Day
+                };
+                var chk = conn.Query<Allotment>("select * from Allotment");
+                if (chk.FirstOrDefault().TeacherID == allotment.TeacherID && chk.FirstOrDefault().LectureDay == allotment.LectureDay && chk.FirstOrDefault().LectureTime == allotment.LectureTime)
+                {
+                    DisplayAlert("Message", "The Teacher is already booked for Selected Day and Time", "OK");
+                }
+                else if (chk.FirstOrDefault().ClassRoomID == allotment.ClassRoomID && chk.FirstOrDefault().LectureDay == allotment.LectureDay && chk.FirstOrDefault().LectureTime == allotment.LectureTime)
+                {
+                    
+                    DisplayAlert("Message", "This Class is already booked for Selected Day and Time", "OK");
+                }
+                else
+                {
+                    if (saveAllotment(allotment))
+                    {
+                        DisplayAlert("Message", "Data Saved Successfully", "", "OK");
+                        getAllotmentDAata();
+                        Clear();
+                    }
+                    else
+                    {
+                        DisplayAlert("Error", "Error found", "", "OK");
+                    }
+                }
             }
         }
         string tName;
         int tID;
         private void SubjectPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var selectedClass = (Classrooms)ClassPicker.SelectedItem;
             var selectedSubject = (Subjects)SubjectPicker.SelectedItem;
-            string qry = "SELECT tt.TeacherID as ID,t.Name as Name FROM Teacher t " +
-                "inner join TeacherAndSubjectTable tt on t.Id=tt.TeacherID " +
-                "where tt.Experience=(select max(ty.Experience) from " +
-                "TeacherAndSubjectTable ty where ty.SubjectID='" + selectedSubject.Id + "')";
+            string qry = "SELECT t.ID as ID,t.Name as Name FROM Teacher t " +
+                "inner join TeacherAndSubjectTable tt on t.ID=tt.TeacherID " +
+                "where tt.Experience=(select max(tt.Experience) from " +
+                "TeacherAndSubjectTable tt where tt.SubjectID='" + selectedSubject.Id + "' and tt.ClassRoom = '"+selectedClass.Name+"')";
             var getTeacher = conn.Query<Teacher>(qry).FirstOrDefault();
-            tName = getTeacher.Name.ToString();
-            tID = getTeacher.Id;
-            txtTeacherName.Text = tName;
+            if (getTeacher!=null)
+            {
+                tName = getTeacher.Name.ToString();
+                tID = getTeacher.ID;
+                txtTeacherName.Text = tName;
+            }
+            else
+            {
+                DisplayAlert("Message", "No Teacher for this Subject", "OK");
+            }
+        }
+        private async void MenuItem_Clicked(object sender, EventArgs e)
+        {
+            bool res = await DisplayAlert("Message", "Do you want to delete Allotment?", "Ok", "Cancel");
+            if (res)
+            {
+                var menu = sender as MenuItem;
+                Allotment details = menu.CommandParameter as Allotment;
+                DependencyService.Get<SQLiteInterface>().DeleteAllotment(details.ID);
+                getAllotmentDAata();
+            }
+        }
+        private void ViewCell_Tapped(object sender, EventArgs e)
+        {
+            if (lastCell != null)
+                lastCell.View.BackgroundColor = Color.Transparent;
+            var viewcell = (ViewCell)sender;
+            if (viewcell != null)
+            {
+                viewcell.View.BackgroundColor = Color.LightGray;
+                lastCell = viewcell;
+            }
+        }
+
+        private void classPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var Class = (Classrooms)ClassPicker.SelectedItem;
+            var getSubject = conn.Query<Subjects>("SELECT Id,Name,CourseType FROM Subjects where ClassRoom = '" + Class.Name + "'");
+            SubjectPicker.ItemsSource = getSubject;
+        }
+       void Clear()
+        {
+            DepartmentPicker.SelectedItem = "";
+            ClassPicker.SelectedItem = "";
+            SubjectPicker.SelectedItem = "";
+            txtTeacherName.Text = "";
+            dayPicker.SelectedItem = "";
+            timePicker.SelectedItem = "";
 
         }
+
     }
 }
